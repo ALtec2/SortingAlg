@@ -1,4 +1,5 @@
 # SortingAlg
+<img width="1280" height="800" alt="Screen Shot 2026-11-08 at 10 31 03 PM" src="https://github.com/user-attachments/assets/3a1bc5c1-de28-446b-817a-79801b9b4fd3" />
 
 ## Why I made it
 - this is created to explore the sorting alg used in everything from search engines to data management
