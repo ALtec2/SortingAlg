@@ -24,12 +24,12 @@ public class SortingVisualizerPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+ 
         if (list == null || list.isEmpty()) {
             return;
         }
 
-        int width = getWidth();
+        int width = getWidth(); 
         int height = getHeight();
         int barWidth = Math.max(1, width / list.size());
  
@@ -39,7 +39,7 @@ public class SortingVisualizerPanel extends JPanel {
         }  
  
         for (int i = 0; i < list.size(); i++) {
-            int val = list.get(i);   
+            int val = list.get(i);
             int barHeight = (int) ((double) val / maxVal * (height - 30));
             int x = i * barWidth; 
             int y = height - barHeight; 
@@ -53,7 +53,7 @@ public class SortingVisualizerPanel extends JPanel {
             if(currentIndex == i){
             	g.setColor(new Color(255, 193, 193));
             }
-            g.fillRect(x, y, barWidth - 1, barHeight);
+            g.fillRect(x, y, barWidth-1, barHeight);
         }
     }
 }
