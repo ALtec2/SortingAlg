@@ -1,4 +1,4 @@
-
+ 
 import java.util.ArrayList;
 
 
@@ -37,6 +37,5 @@ public class SortingAlg{
 	public static void quickSortDemo(ArrayList<Integer> list){
 			}     
    
-}  
-
+}
   
