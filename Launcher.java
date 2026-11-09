@@ -1,18 +1,18 @@
 import javax.swing.*;
-import java.awt.*;
+import java.awt.*;     
 import java.util.ArrayList;
  
 public class Launcher extends JFrame {
     private SortingVisualizerPanel panel;
     private ArrayList<Integer> list;
-
+ 
     public Launcher() { 
  
         //window creation
         setTitle("Array Sorting Visual");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 450);
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);  
 
         //list creation
         int amount = 350;
@@ -23,47 +23,49 @@ public class Launcher extends JFrame {
         add(panel, BorderLayout.CENTER);
         setVisible(true); 
 
-        //menu cration 
+        //menu cration
         JMenuBar menuBar = new JMenuBar();
         JPanel controlPanel = new JPanel();
         JMenu algoMenu = new JMenu("Algorithms");
+        add(controlPanel, BorderLayout.NORTH);
    
-        //BUTTON  
+        //list
         JMenuItem quickSort = new JMenuItem("Quick Sort");
         quickSort.addActionListener(e ->{
-            quickSort();   
+            quickSort();
         });
+        algoMenu.add(quickSort);
 
         JMenuItem bubbleSort = new JMenuItem("Bubble Sort");
-        JButton resetButton = new JButton("Reset Array");
         bubbleSort.addActionListener(e ->{
             bubbleSort();
-        }); 
-
-
-        controlPanel.setBackground(Color.BLACK);
-
-        resetButton.addActionListener(e -> {
-		    list.clear();
-		    list = SortingAlg.randomNumber(amount, list); 
-		     
-		    panel.setList(list);
-		     
-		    panel.repaint(); 
-		});            
-         
-		controlPanel.add(resetButton);
-		add(controlPanel, BorderLayout.NORTH);
+        });
         algoMenu.add(bubbleSort);
-        algoMenu.add(quickSort);
+
+        JMenuItem bogoSort = new JMenuItem("Bogo Sort");
+        bogoSort.addActionListener(e ->{
+            bogoSort(amount);
+        });
+        algoMenu.add(bogoSort); 
+
         menuBar.add(algoMenu);
         setJMenuBar(menuBar); 
-    }             
 
+        //buttons 
+        controlPanel.setBackground(Color.BLACK);
+        JButton resetButton = new JButton("Reset Array");
+        resetButton.addActionListener(e -> {
+		    list.clear();
+		    list = SortingAlg.randomNumber(amount, list);
+		    panel.setList(list);
+		    panel.repaint();
+		});
+        controlPanel.add(resetButton); 
+    }
+ 
     private void quickSort() { 
         Thread sortThread = new Thread(() -> {
             try {
-            	Thread.sleep(1000);
                 int x = list.size() - 1;
                 ArrayList<Integer> less = new ArrayList<>();
                 ArrayList<Integer> more = new ArrayList<>();
@@ -102,16 +104,15 @@ public class Launcher extends JFrame {
             } 
         });
 
-        sortThread.start();
-    }         
-
-     private void bubbleSort() {
+        sortThread.start(); 
+    }
+ 
+    private void bubbleSort() {
         Thread sortThread = new Thread(() -> {
             try {
-                Thread.sleep(1000);
                 int x = 0;
                 int temp = 0; 
-
+ 
                 while (SortingAlg.checkIfNotSort(list)) {
                     if(list.get(x) >list.get(x+1)){
                         temp = list.get(x);
@@ -124,17 +125,37 @@ public class Launcher extends JFrame {
                     } 
                     panel.setCurrentIndex(x);
                     SwingUtilities.invokeLater(() -> panel.repaint());
-                    Thread.sleep(1);       
-                }    
+                    Thread.sleep(1);
+                }
             } catch (InterruptedException e) {
-                e.printStackTrace();   
-            }  
-        });     
-            
-        sortThread.start();      
+                e.printStackTrace();
+            }
+        });
+
+        sortThread.start();
     }
+  
+    private void bogoSort(int amount){ 
+        Thread sortThread = new Thread(() -> {
+            try {
     
-                    
+                while (SortingAlg.checkIfNotSort(list)) {
+                    synchronized(this){ 
+                        list.clear(); 
+                        list = (SortingAlg.randomNumber(amount, list));
+                        panel.setList(list);
+                    }
+                    SwingUtilities.invokeLater(() -> panel.repaint());
+                    Thread.sleep(1);
+                }
+            } catch (InterruptedException e) {
+             e.printStackTrace();
+            }
+        });
+
+        sortThread.start();
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Launcher());
     }
